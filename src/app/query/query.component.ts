@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { DynamoDBService } from "../services/dynamoDBService/dynamodb.service";
 
 @Component({
   selector: 'app-query',
@@ -7,9 +8,11 @@ import { Component, OnInit } from '@angular/core';
 })
 export class QueryComponent implements OnInit {
 
-  constructor() { }
+  constructor(public dynamoDB: DynamoDBService) {
+  }
 
   ngOnInit() {
+    this.dynamoDB.test();
   }
 
 }
