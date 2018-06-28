@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { DynamoDBService } from "../services/dynamoDBService/dynamodb.service";
+import { DynamoDBService } from '../services/dynamoDBService/dynamodb.service';
 
 @Component({
   selector: 'app-query',
@@ -12,7 +12,7 @@ export class QueryComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.dynamoDB.test();
+    this.dynamoDB.queryByArtist('Radiohead');
   }
 
 }

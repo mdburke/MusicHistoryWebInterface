@@ -1,11 +1,12 @@
 import { Injectable } from '@angular/core';
 import * as DynamoDB from 'aws-sdk/clients/dynamodb';
 import * as creds from '../../../secrets/credentials.json';
-import { HttpClient } from "@angular/common/http";
+import { HttpClient } from '@angular/common/http';
+import { ResultSet } from 'aws-sdk/clients/athena';
 
 @Injectable()
 export class DynamoDBService {
-  dynamoDB: DynamoDB;
+  private dynamoDB: DynamoDB;
 
   constructor(public http: HttpClient) {
     console.log('DynamoDBService: constructor');
@@ -13,42 +14,33 @@ export class DynamoDBService {
       apiVersion: '2012-08-10',
       region: 'us-east-1',
       accessKeyId: creds['accessKeyId'],
-      secretAccessKey: creds['secretAccessKey'],
-      endpoint: 'http://localhost:8000'
+      secretAccessKey: creds['secretAccessKey']
     });
   }
 
-  public test(): void {
+  getDynamodDBConnection() {
+    return this.dynamoDB;
+  }
+
+  queryByArtist(artist: string): Promise {
     const params = {
-      AttributeDefinitions: [
-        {
-          AttributeName: 'Artist',
-          AttributeType: 'S'
-        },
-        {
-          AttributeName: 'SongTitle',
-          AttributeType: 'S'
-        },
-      ],
-      KeySchema: [
-        {
-          AttributeName: 'Artist',
-          KeyType: 'HASH'
-        },
-        {
-          AttributeName: 'SongTitle',
-          KeyType: 'RANGE'
-        }
-      ],
-      ProvisionedThroughput: {
-        ReadCapacityUnits: 5,
-          WriteCapacityUnits: 5
+      ExpressionAttributeValues: {
+        ':partitionkeyval': { 'S': `${artist}` }
       },
-      TableName: 'Music'
+      IndexName: 'artist-index',
+      KeyConditionExpression: 'artist = :partitionkeyval',
+      TableName: 'music_history_dev'
     };
 
-    this.dynamoDB.createTable(params, (err, data) => {
-      if (err) { console.log(err, err.stack); } else { console.log(data); }
+    return new Promise((resolve, reject) => {
+      this.dynamoDB.query(params, (err, data) => {
+        if (err) {
+          console.log(err, err.stack);
+          reject(err);
+        } else {
+          resolve(data);
+        }
+      });
     });
   }
 
