@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { DynamoDBService } from '../services/dynamoDBService/dynamodb.service';
+import { QueryOutput } from "aws-sdk/clients/dynamodb";
 
 @Component({
   selector: 'app-query',
@@ -7,12 +8,14 @@ import { DynamoDBService } from '../services/dynamoDBService/dynamodb.service';
   styleUrls: ['./query.component.css']
 })
 export class QueryComponent implements OnInit {
+  private output: QueryOutput;
 
   constructor(public dynamoDB: DynamoDBService) {
   }
 
-  ngOnInit() {
-    this.dynamoDB.queryByArtist('Radiohead');
+  async ngOnInit() {
+    this.output = await this.dynamoDB.queryByArtist('Radiohead');
+    console.log(this.output);
   }
 
 }

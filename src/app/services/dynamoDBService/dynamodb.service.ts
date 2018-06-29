@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import * as DynamoDB from 'aws-sdk/clients/dynamodb';
 import * as creds from '../../../secrets/credentials.json';
 import { HttpClient } from '@angular/common/http';
-import { ResultSet } from 'aws-sdk/clients/athena';
+import { QueryOutput } from "aws-sdk/clients/dynamodb";
 
 @Injectable()
 export class DynamoDBService {
@@ -22,7 +22,7 @@ export class DynamoDBService {
     return this.dynamoDB;
   }
 
-  queryByArtist(artist: string): Promise {
+  async queryByArtist(artist: string): Promise<QueryOutput> {
     const params = {
       ExpressionAttributeValues: {
         ':partitionkeyval': { 'S': `${artist}` }
