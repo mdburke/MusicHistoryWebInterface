@@ -44,4 +44,77 @@ export class DynamoDBService {
     });
   }
 
+  async queryByEventID(eventID: string): Promise<QueryOutput> {
+    const params = {
+      ExpressionAttributeValues: {
+        ':partitionkeyval': { 'S': `${eventID}` }
+      },
+      KeyConditionExpression: 'eventID = :partitionkeyval',
+      TableName: 'music_history_dev'
+    };
+
+    return new Promise((resolve, reject) => {
+      this.dynamoDB.query(params, (err, data) => {
+        if (err) {
+          console.log(err, err.stack);
+          reject(err);
+        } else {
+          resolve(data);
+        }
+      });
+    });
+  }
+
+  async queryByDayAndYear(day: string, year: number): Promise<QueryOutput> {
+    const params = {
+      ExpressionAttributeValues: {
+        ':partitionkeyval': { 'S': `${day}` },
+        ':sortkeyval': { 'N': `${year}` }
+      },
+      ExpressionAttributeNames: {
+        '#day':'day',
+        '#year': 'year'
+      },
+      IndexName: 'day-year-index',
+      KeyConditionExpression: '#day = :partitionkeyval AND #year = :sortkeyval',
+      TableName: 'music_history_dev'
+    };
+
+    return new Promise((resolve, reject) => {
+      this.dynamoDB.query(params, (err, data) => {
+        if (err) {
+          console.log(err, err.stack);
+          reject(err);
+        } else {
+          resolve(data);
+        }
+      });
+    });
+  }
+
+  async queryByDay(day: string): Promise<QueryOutput> {
+    const params = {
+      ExpressionAttributeValues: {
+        ':partitionkeyval': { 'S': `${day}` }
+      },
+      ExpressionAttributeNames: {
+        '#day':'day'
+      },
+      IndexName: 'day-year-index',
+      KeyConditionExpression: '#day = :partitionkeyval',
+      TableName: 'music_history_dev'
+    };
+
+    return new Promise((resolve, reject) => {
+      this.dynamoDB.query(params, (err, data) => {
+        if (err) {
+          console.log(err, err.stack);
+          reject(err);
+        } else {
+          resolve(data);
+        }
+      });
+    });
+  }
+
 }

@@ -14,7 +14,7 @@ export class QueryComponent implements OnInit {
   }
 
   async ngOnInit() {
-    this.output = await this.dynamoDB.queryByArtist('Radiohead');
+    this.output = await this.dynamoDB.queryByDay(  '0526');
     console.log(this.output);
   }
 
