@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { DynamoDBService } from '../services/dynamoDBService/dynamodb.service';
+import { DynamoDBService } from '../../services/dynamoDBService/dynamodb.service';
 import { QueryOutput } from "aws-sdk/clients/dynamodb";
 
 @Component({

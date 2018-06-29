@@ -2,11 +2,11 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 
 import { AppComponent } from './app.component';
-import { QueryComponent } from './query/query.component';
+import { QueryComponent } from './components/query/query.component';
 import { DynamoDBService } from './services/dynamoDBService/dynamodb.service';
 import { RouterModule } from '@angular/router';
 import { AppRoutes } from './router/Routes';
-import { HomeComponent } from './home/home.component';
+import { HomeComponent } from './components/home/home.component';
 import { AwsutilService } from "./services/awsutil/awsutil.service";
 import { HttpClientModule } from "@angular/common/http";
 
