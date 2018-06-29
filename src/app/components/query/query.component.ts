@@ -9,6 +9,7 @@ import { QueryOutput } from "aws-sdk/clients/dynamodb";
 })
 export class QueryComponent implements OnInit {
   private output: QueryOutput;
+  queryValue: number;
 
   constructor(public dynamoDB: DynamoDBService) {
   }

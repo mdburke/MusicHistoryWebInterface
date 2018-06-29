@@ -9,6 +9,7 @@ import { AppRoutes } from './router/Routes';
 import { HomeComponent } from './components/home/home.component';
 import { AwsutilService } from "./services/awsutil/awsutil.service";
 import { HttpClientModule } from "@angular/common/http";
+import { FormsModule } from "@angular/forms";
 
 @NgModule({
   declarations: [
@@ -21,7 +22,8 @@ import { HttpClientModule } from "@angular/common/http";
     RouterModule.forRoot(
       AppRoutes,{ enableTracing: true }
     ),
-    HttpClientModule
+    HttpClientModule,
+    FormsModule
   ],
   providers: [
     DynamoDBService,
