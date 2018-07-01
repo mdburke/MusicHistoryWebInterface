@@ -7,7 +7,7 @@ export class QueryResult {
   @attribute()
   day: string;
   @attribute()
-  year: string;
+  year: number;
   @attribute()
   artist: string;
   @attribute({memberType: {type: 'String'}})

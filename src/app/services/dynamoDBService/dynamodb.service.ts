@@ -10,6 +10,7 @@ import { QueryResult } from "../../domain/QueryResult";
 @Injectable()
 export class DynamoDBService {
   private dynamoDB: DynamoDB;
+  private mapper: DataMapper;
 
   constructor(public http: HttpClient) {
     console.log('DynamoDBService: constructor');
@@ -20,93 +21,55 @@ export class DynamoDBService {
       secretAccessKey: creds['secretAccessKey'],
       endpoint: environment.dynamo_url
     });
+    this.mapper = new DataMapper({
+      client: this.dynamoDB
+    });
+
   }
 
   getDynamodDBConnection() {
     return this.dynamoDB;
   }
 
-  async queryByArtist(artist: string): Promise<QueryOutput> {
-    const params = {
-      ExpressionAttributeValues: {
-        ':partitionkeyval': { 'S': `${artist}` }
-      },
-      IndexName: 'artist-index',
-      KeyConditionExpression: 'artist = :partitionkeyval',
-      TableName: 'music_history_dev'
-    };
-
-    return new Promise((resolve, reject) => {
-      this.dynamoDB.query(params, (err, data) => {
-        if (err) {
-          console.log(err, err.stack);
-          reject(err);
-        } else {
-          resolve(data);
-        }
-      });
-    });
-  }
-
-  async queryByEventID(eventID: string): Promise<QueryOutput> {
-    const params = {
-      ExpressionAttributeValues: {
-        ':partitionkeyval': { 'S': `${eventID}` }
-      },
-      KeyConditionExpression: 'eventID = :partitionkeyval',
-      TableName: 'music_history_dev'
-    };
-
-    return new Promise((resolve, reject) => {
-      this.dynamoDB.query(params, (err, data) => {
-        if (err) {
-          console.log(err, err.stack);
-          reject(err);
-        } else {
-          resolve(data);
-        }
-      });
-    });
-  }
-
-  async queryByDayAndYear(day: string, year: number): Promise<QueryOutput> {
-    const params = {
-      ExpressionAttributeValues: {
-        ':partitionkeyval': { 'S': `${day}` },
-        ':sortkeyval': { 'N': `${year}` }
-      },
-      ExpressionAttributeNames: {
-        '#day':'day',
-        '#year': 'year'
-      },
-      IndexName: 'day-year-index',
-      KeyConditionExpression: '#day = :partitionkeyval AND #year = :sortkeyval',
-      TableName: 'music_history_dev'
-    };
-
-    return new Promise((resolve, reject) => {
-      this.dynamoDB.query(params, (err, data) => {
-        if (err) {
-          console.log(err, err.stack);
-          reject(err);
-        } else {
-          resolve(data);
-        }
-      });
-    });
-  }
-
-  async queryByDay(day: string): Promise<QueryResult[]> {
-    const mapper = new DataMapper({
-      client: this.dynamoDB
-    });
-
+  async queryByArtist(artist: string): Promise<QueryResult[]> {
     let results: QueryResult[] = [];
 
-    for await (const item of mapper.query(QueryResult, {day: day}, { indexName: 'day-year-index'} )) {
+    for await (const item of this.mapper.query(QueryResult, {artist: artist}, { indexName: 'artist-index'} )) {
       results.push(item)
     }
 
+    return results;
+  }
+
+  async queryByEventID(eventID: string): Promise<QueryResult[]> {
+    let results: QueryResult[] = [];
+
+    for await (const item of this.mapper.query(QueryResult, {eventID: eventID})) {
+      results.push(item)
+    }
+
+    return results;
+  }
+
+  async queryByDayAndYear(day: string, year: number): Promise<QueryResult[]> {
+    let results: QueryResult[] = [];
+
+    for await (const item of this.mapper.query(QueryResult, {day: day, year: year}, { indexName: 'day-year-index'} )) {
+      results.push(item)
+    }
+
+    return results;
+  }
+
+  async queryByDay(day: string): Promise<QueryResult[]> {
+    console.log("queryByDay Called");
+    let results: QueryResult[] = [];
+
+    for await (const item of this.mapper.query(QueryResult, {day: day}, { indexName: 'day-year-index'} )) {
+      results.push(item)
+    }
+
+    console.log(results);
     return results;
   }
 
