@@ -1,3 +1,4 @@
 export const environment = {
-  production: true
+  production: true,
+  dynamo_url: 'dynamodb.us-east-1.amazonaws.com'
 };

@@ -3,8 +3,8 @@
     <div class="form-group">
       <h3>Query by:</h3>
       <div class="form-check-inline">
-        <input class="form-check-inline" type="radio" name="queryType" id="artistQuery" value=0 [(ngModel)]="queryValue">
-        <label class="form-check-label" for="artistQuery">Artist</label>
+        <input class="form-check-inline" type="radio" name="queryType" id="artist" value=0 [(ngModel)]="queryValue">
+        <label class="form-check-label" for="artist">Artist</label>
       </div>
       <div class="form-check-inline">
         <input class="form-check-inline" type="radio" name="queryType" id="eventID" value=1 [(ngModel)]="queryValue">
@@ -20,14 +20,46 @@
       </div>
     </div>
 
-    <div [ngSwitch]="">
-      <div id="artistQueryTemplate">
-        {{queryValue}}
+    <div [ngSwitch]=queryValue class="form-group">
+      <div id="artistQueryTemplate" *ngSwitchCase="0">
+        <label class="form-check-label" for="artistInput">Artist:</label>
+        <input class="form-check-inline" type="text" name="artistInput" id="artistInput">
+      </div>
+      <div id="eventIDQueryTemplate" *ngSwitchCase="1">
+        <label class="form-check-label" for="eventIDInput">EventID:</label>
+        <input class="form-check-inline" type="text" name="eventIDInput" id="eventIDInput">
+      </div>
+      <div id="dayQueryTemplate" *ngSwitchCase="2">
+        <label class="form-check-label" for="dayInput">Day:</label>
+        <input class="form-check-inline" type="text" name="dayInput" id="dayInput">
+      </div>
+      <div id="dayAndYearQueryTemplate" *ngSwitchCase="3">
+        <label class="form-check-label" for="dayAndYearDayInput">Day:</label>
+        <input class="form-check-inline" type="text" name="dayAndYearDayInput" id="dayAndYearDayInput">
+        <br/>
+        <label class="form-check-label" for="dayAndYearDayInput">Year:</label>
+        <input class="form-check-inline" type="text" name="dayAndYearYearInput" id="dayAndYearYearInput">
       </div>
     </div>
 
-    <div id="buttons">
+    <div id="buttons" class="form-group">
       <button type="submit" class="btn btn-success">Search</button>
     </div>
   </form>
+  <table id="results" class="table">
+    <thead>
+      <tr>
+        <th>Event ID</th>
+        <th>Date</th>
+        <th>Artist</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let result of results">
+        <td>
+          {{result}}
+        </td>
+      </tr>
+    </tbody>
+  </table>
 </div>

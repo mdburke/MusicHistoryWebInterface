@@ -10,12 +10,14 @@ import { HomeComponent } from './components/home/home.component';
 import { AwsutilService } from "./services/awsutil/awsutil.service";
 import { HttpClientModule } from "@angular/common/http";
 import { FormsModule } from "@angular/forms";
+import { EntryComponent } from './components/entry/entry.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     QueryComponent,
-    HomeComponent
+    HomeComponent,
+    EntryComponent
   ],
   imports: [
     BrowserModule,

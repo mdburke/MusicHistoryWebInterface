@@ -1,5 +1,5 @@
 import { DynamoDBService } from '../services/dynamoDBService/dynamodb.service';
-import DynamoDB = require('aws-sdk/clients/dynamodb');
+import * as DynamoDB from "aws-sdk/clients/dynamodb";
 
 export class DBInit {
   dynamoDB: DynamoDB;
