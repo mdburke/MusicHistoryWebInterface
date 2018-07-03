@@ -52,6 +52,7 @@
         <th>Event ID</th>
         <th>Date</th>
         <th>Artist</th>
+        <th></th>
       </tr>
     </thead>
     <tbody>
@@ -64,6 +65,9 @@
         </td>
         <td>
           {{result.artist}}
+        </td>
+        <td>
+          <a href="/edit/{{result.eventID}}">Edit</a>
         </td>
       </tr>
     </tbody>

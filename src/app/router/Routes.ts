@@ -1,10 +1,11 @@
 import { Routes } from '@angular/router';
 import { QueryComponent } from '../components/query/query.component';
-import { HomeComponent } from '../components/home/home.component';
 import { EntryComponent } from "../components/entry/entry.component";
+import { EventDetailComponent } from "../components/event-detail/event-detail.component";
 
 export const AppRoutes: Routes = [
   { path: 'query', component: QueryComponent },
-  { path: 'home', component: HomeComponent },
-  { path: 'entry', component: EntryComponent }
+  { path: 'entry', component: EntryComponent },
+  { path: 'edit/:eventID', component: EventDetailComponent },
+  { path: '', redirectTo: '/query', pathMatch: 'full' }
 ];

@@ -26,10 +26,6 @@ export class QueryComponent implements OnInit {
   }
 
   async onSubmit() {
-    console.log("onsubmit called");
-    console.log(this.queryValue);
-    console.log(this.map);
-    console.log(this.queryValue == 2);
     switch(this.queryValue) {
       case "0": {
         this.results = await this.dynamoDBService.queryByArtist(this.map['artist']);
@@ -40,7 +36,6 @@ export class QueryComponent implements OnInit {
         break;
       }
       case "2": {
-        console.log("case 2");
         this.results = await this.dynamoDBService.queryByDay(this.map['day']);
         break;
       }
@@ -49,7 +44,7 @@ export class QueryComponent implements OnInit {
         break;
       }
       default: {
-        console.log(this.queryValue);
+        console.log("Something went wrong in onSubmit.");
       }
     }
 
