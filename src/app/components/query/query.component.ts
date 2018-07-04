@@ -29,6 +29,7 @@ export class QueryComponent implements OnInit {
     switch(this.queryValue) {
       case "0": {
         this.results = await this.dynamoDBService.queryByArtist(this.map['artist']);
+        console.log(this.results);
         break;
       }
       case "1": {

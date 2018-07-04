@@ -73,4 +73,12 @@ export class DynamoDBService {
     return results;
   }
 
+  putItem(item: object) {
+    console.log("putItem called");
+    const toSave =  Object.assign(new QueryResult, item);
+    this.mapper.put(toSave).then(objectSaved => {
+      console.log("item saved: " + objectSaved);
+    })
+  }
+
 }
