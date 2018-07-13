@@ -11,5 +11,5 @@ export class QueryResult {
   @attribute()
   artist: string;
   @attribute({memberType: {type: 'String'}})
-  data: Map<any, any>;
+  data?: Map<String, String>;
 }

@@ -45,6 +45,7 @@ export class DynamoDBService {
     let results: QueryResult[] = [];
 
     for await (const item of this.mapper.query(QueryResult, {eventID: eventID})) {
+      console.log(item);
       results.push(item)
     }
 
@@ -74,7 +75,6 @@ export class DynamoDBService {
   }
 
   putItem(item: object) {
-    console.log("putItem called");
     const toSave =  Object.assign(new QueryResult, item);
     this.mapper.put(toSave).then(objectSaved => {
       console.log("item saved: " + objectSaved);

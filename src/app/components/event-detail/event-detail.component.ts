@@ -24,6 +24,16 @@ export class EventDetailComponent implements OnInit {
   ngOnInit() {
     this.sub = this.route.params.subscribe(params => {
       console.log(params['eventID']);
+      this.dynamoDBService.queryByEventID(params['eventID'])
+        .then(data => {
+          this.model.artist = data[0].artist;
+          this.model.day = data[0].day;
+          this.model.year = data[0].year.toString();
+          this.model.eventID = data[0].eventID;
+          this.model.description = data[0].data.get('description');
+        }).catch(error => {
+          console.log(error);
+        })
     });
   }
 

@@ -1,7 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Router, Routes } from "@angular/router";
 import { DynamoDBService } from "../../services/dynamoDBService/dynamodb.service";
-import { QueryResult } from "../../domain/QueryResult";
 const uuidv1 = require('uuid/v1');
 
 @Component({
@@ -15,8 +13,8 @@ export class EntryComponent implements OnInit {
     artist: "",
     day: "",
     year: "",
-    description: "",
-    eventID: null
+    eventID: null,
+    description: ""
   };
 
   constructor(private dynamoDBService: DynamoDBService) {
@@ -27,9 +25,19 @@ export class EntryComponent implements OnInit {
   }
 
   onSubmit() {
-    this.model.eventID = uuidv1();
-    console.log(this.model.eventID);
-    this.dynamoDBService.putItem(this.model);
+    this.dynamoDBService.putItem(this.transformData());
+  }
+
+  transformData() {
+    return {
+      artist: this.model.artist,
+      day: this.model.day,
+      year: this.model.year,
+      eventID: uuidv1(),
+      data: {
+        description: this.model.description;
+      }
+    }
   }
 
 }

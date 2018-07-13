@@ -23,6 +23,7 @@ export class QueryComponent implements OnInit {
     this.map['day'] = null;
     this.map['year'] = null;
     this.map['eventID'] = null;
+    this.map['description'] = null;
     this.queryValue = "0";
   }
 
