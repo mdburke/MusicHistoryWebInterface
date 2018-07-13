@@ -52,6 +52,7 @@
         <th>Event ID</th>
         <th>Date</th>
         <th>Artist</th>
+        <th>Description</th>
         <th></th>
       </tr>
     </thead>
@@ -67,7 +68,7 @@
           {{result.artist}}
         </td>
         <td>
-          {{result.description}}
+          {{result.data.get('description')}}
         </td>
         <td>
           <a href="/edit/{{result.eventID}}">Edit</a>
