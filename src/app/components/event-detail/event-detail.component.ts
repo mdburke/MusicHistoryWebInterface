@@ -38,7 +38,19 @@ export class EventDetailComponent implements OnInit {
   }
 
   onSubmit() {
-    // this.dynamoDBService.putItem(this.model);
+    this.dynamoDBService.putItem(this.transformData());
+  }
+
+  transformData() {
+    return {
+      artist: this.model.artist,
+      day: this.model.day,
+      year: this.model.year,
+      eventID: this.model.eventID,
+      data: {
+        description: this.model.description;
+  }
+  }
   }
 
 }
