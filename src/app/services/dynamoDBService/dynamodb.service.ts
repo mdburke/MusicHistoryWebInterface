@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import * as DynamoDB from 'aws-sdk/clients/dynamodb';
 import * as creds from '../../../secrets/credentials.json';
 import { HttpClient } from '@angular/common/http';
-import { QueryOutput } from "aws-sdk/clients/dynamodb";
 import { environment } from "../../../environments/environment";
 import { DataMapper } from "@aws/dynamodb-data-mapper";
 import { QueryResult } from "../../domain/QueryResult";
